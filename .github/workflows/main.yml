@@ -1,0 +1,17 @@
+name: build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+jobs:
+  lint:
+    name: Like Rultor
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Qulice
+        run: mvn clean install -Pqulice -DskipTests=true --errors --batch-mode
+      - name: Tests
+        run: mvn test
