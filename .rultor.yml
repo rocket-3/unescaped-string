@@ -1,0 +1,17 @@
+image: g4s8/rultor:alpine3.10
+architect:
+  - rocket-3
+assets:
+  settings.xml: "rocket-3/dbgit-test#settings.xml"
+  pubring.gpg: "rocket-3/dbgit-test#pubring.kbx"
+merge:
+  script: |-
+    pdd -f /dev/null
+    java -version --batch-mode
+    mvn -version --batch-mode
+    mvn clean install -Pqulice --batch-mode
+release:
+  script: |
+    mvn versions:set "-DnewVersion=${tag}"
+    git commit -am "${tag}"
+    mvn clean deploy -Psonatype --settings /home/r/settings.xml
