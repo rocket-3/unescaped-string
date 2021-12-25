@@ -142,64 +142,61 @@
                                 <skip>true</skip>
                             </configuration>
                         </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-source-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>sonatype-sources</id>
+                                    <configuration>
+                                        <forceCreation>true</forceCreation>
+                                    </configuration>
+                                    <goals>
+                                        <goal>jar</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                        <plugin>
+                            <!--
+                            Generate -javadoc.jar artifact, required by Maven Central.
+                            -->
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>sonatype-javadoc</id>
+                                    <phase>package</phase>
+                                    <goals>
+                                        <goal>jar</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                        <plugin>
+                            <!-- @see http://www.sonatype.com/books/nexus-book/reference/staging-sect-deployment.html -->
+                            <groupId>org.sonatype.plugins</groupId>
+                            <artifactId>nexus-staging-maven-plugin</artifactId>
+                            <version>1.6.7</version>
+                            <extensions>true</extensions>
+                            <configuration>
+                                <serverId>oss.sonatype.org</serverId>
+                                <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                                <description>${project.version}</description>
+                                <stagingProgressTimeoutMinutes>10</stagingProgressTimeoutMinutes>
+                            </configuration>
+                            <executions>
+                                <execution>
+                                    <id>sonatype-deploy-to-sonatype</id>
+                                    <phase>deploy</phase>
+                                    <goals>
+                                        <goal>deploy</goal>
+                                        <goal>release</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
                     </plugins>
                 </pluginManagement>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>sonatype-sources</id>
-                                <configuration>
-                                    <forceCreation>true</forceCreation>
-                                </configuration>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <!--
-                        Generate -javadoc.jar artifact, required by Maven Central.
-                        -->
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>sonatype-javadoc</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                                <configuration>
-                                    <additionalparam>${javadoc.opts}</additionalparam>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <!-- @see http://www.sonatype.com/books/nexus-book/reference/staging-sect-deployment.html -->
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>oss.sonatype.org</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <description>${project.version}</description>
-                            <stagingProgressTimeoutMinutes>10</stagingProgressTimeoutMinutes>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>sonatype-deploy-to-sonatype</id>
-                                <phase>deploy</phase>
-                                <goals>
-                                    <goal>deploy</goal>
-                                    <goal>release</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
             </build>
         </profile>
     </profiles>
