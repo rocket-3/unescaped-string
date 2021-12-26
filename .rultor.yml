@@ -8,11 +8,10 @@ merge:
   script: |-
     pdd -f /dev/stdout
     java -version --batch-mode
-    mvn -version --batch-mode
-    mvn clean install -Pqulice -ntp --batch-mode
+    mvn -version --batch-mode -Dstyle.color=never
+    mvn clean install -Pqulice -ntp --batch-mode -Dstyle.color=never
 release:
   script: |
-    gpg2 --allow-secret-key-import --no-tty --batch --import ../pubring.kbx
-    mvn versions:set "-DnewVersion=${tag}" -ntp
+    mvn versions:set "-DnewVersion=${tag}" -ntp -Dstyle.color=never
     git commit -am "${tag}"
-    mvn clean deploy -Psonatype -ntp --settings ../settings.xml --batch-mode
+    mvn clean deploy -Psonatype -ntp --settings ../settings.xml --batch-mode -Dstyle.color=never
