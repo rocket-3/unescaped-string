@@ -14,4 +14,4 @@ release:
   script: |
     mvn versions:set "-DnewVersion=${tag}"
     git commit -am "${tag}"
-    mvn clean deploy -Psonatype --settings /home/r/settings.xml
+    mvn clean deploy -Psonatype --settings /home/r/settings.xml --batch-mode -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
