@@ -22,8 +22,8 @@ jobs:
         with:
           java-version: 1.8
       - name: Check Puzzles
-        run: pdd --file=/dev/null
+        run: pdd --file=/dev/stdout
       - name: Check Qulice
         run: mvn clean install -Pqulice -DskipTests=true --errors --batch-mode -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
       - name: Check Tests
-        run: mvn test --batch-mode
+        run: mvn test --batch-mode --batch-mode -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
