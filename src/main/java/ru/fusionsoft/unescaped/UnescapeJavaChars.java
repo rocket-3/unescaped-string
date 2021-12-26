@@ -30,13 +30,14 @@ import java.util.function.Function;
 public class UnescapeJavaChars implements Function<CharSequence, CharSequence> {
 
     @Override
+    @SuppressWarnings("PMD.CyclomaticComplexity")
     public final CharSequence apply(final CharSequence chars) {
         final int length = chars.length();
-        final StringBuilder string = new StringBuilder(length);
-        for (int point = 0; point < length; ) {
+        final StringBuilder text = new StringBuilder(length);
+        for (int point = 0; point < length;) {
             final char first = chars.charAt(point);
             if (!isEscape(first) || isOverflow(point + 1, chars)) {
-                string.append(first);
+                text.append(first);
                 point += 1;
             } else {
                 final char second = chars.charAt(point + 1);
@@ -49,12 +50,15 @@ public class UnescapeJavaChars implements Function<CharSequence, CharSequence> {
                     ) {
                         code.append(chars.charAt(point + offset));
                     }
-                    string.append((char) Integer.parseInt(code.toString(), 8));
+                    text.append((char) Integer.parseInt(code.toString(), 8));
                     point += 1;
                     point += code.length();
                 } else if (isUnicode(second)) {
-                    if (!isOverflow(point + 5, chars)) {
-                        string.append(
+                    if (isOverflow(point + 5, chars)) {
+                        text.append(first);
+                        point += 1;
+                    } else {
+                        text.append(
                             Character.toChars(
                                 Integer.parseInt(
                                     MessageFormat.format(
@@ -69,27 +73,26 @@ public class UnescapeJavaChars implements Function<CharSequence, CharSequence> {
                             )
                         );
                         point += 6;
-                    } else {
-                        string.append(first);
-                        point += 1;
                     }
                 } else if (isSpecial(second)) {
-                    string.append(replaceSpecial(second));
+                    text.append(replaceSpecial(second));
                     point += 2;
                 } else {
-                    string.append(first);
+                    text.append(first);
                     point += 1;
                 }
             }
         }
-        return string;
+        return text;
     }
 
     /**
      * Return special character instead of a letter.
-     * @param symbol the symbol
+     * @param symbol The symbol.
      * @return The special character version.
+     * @checkstyle ReturnCountCheck (200 lines)
      */
+    @SuppressWarnings("PMD.OnlyOneReturn")
     private static char replaceSpecial(final char symbol) {
         if (symbol == 'b') {
             return '\b';
@@ -110,23 +113,23 @@ public class UnescapeJavaChars implements Function<CharSequence, CharSequence> {
     }
 
     /**
-     * Check character is part of special one
-     * @param symbol the symbol
+     * Check character is part of special one.
+     * @param symbol The symbol.
      * @return Is one of or not.
      */
     private static boolean isSpecial(final char symbol) {
         return symbol == '\\'
-           || symbol == 'b'
-           || symbol == 'f'
-           || symbol == 'n'
-           || symbol == 'r'
-           || symbol == 't'
-           || symbol == '\"';
+            || symbol == 'b'
+            || symbol == 'f'
+            || symbol == 'n'
+            || symbol == 'r'
+            || symbol == 't'
+            || symbol == '\"';
     }
 
     /**
      * Check character is part of escape one.
-     * @param symbol the symbol.
+     * @param symbol The symbol.
      * @return Is one of or not.
      */
     private static boolean isEscape(final char symbol) {
@@ -135,26 +138,27 @@ public class UnescapeJavaChars implements Function<CharSequence, CharSequence> {
 
     /**
      * Check index is bigger that text's length.
-     * @param point the index.
-     * @return Boolean.
+     * @param point The index.
+     * @param text The text.
+     * @return Boolean. boolean.
      */
     private static boolean isOverflow(final int point, final CharSequence text) {
         return point >= text.length();
     }
 
     /**
-     * Check character is part of octal one.
-     * @param symbol the symbol.
-     * @return Is one of or not.
+     * Is octal boolean.
+     * @param symbol The symbol.
+     * @return The boolean.
      */
     private static boolean isOctal(final char symbol) {
         return symbol >= '0' && symbol <= '7';
     }
 
     /**
-     * Check character is part of unicode one.
-     * @param symbol the symbol.
-     * @return Is one of or not.
+     * Is unicode boolean.
+     * @param symbol The symbol.
+     * @return The boolean.
      */
     private static boolean isUnicode(final char symbol) {
         return symbol == 'u';

@@ -28,35 +28,36 @@ import java.util.function.Function;
  */
 public class UnescapeYamlChars implements Function<CharSequence, CharSequence> {
 
-
     @Override
     public final CharSequence apply(final CharSequence chars) {
         final int length = chars.length();
-        final StringBuilder sb = new StringBuilder(length);
-        for (int point = 0; point < length; ) {
-            char first = chars.charAt(point);
+        final StringBuilder string = new StringBuilder(length);
+        for (int point = 0; point < length;) {
+            final char first = chars.charAt(point);
             if (!isEscape(first) || isOverflow(point + 1, chars)) {
-                sb.append(first);
+                string.append(first);
                 point += 1;
             } else {
                 final char second = chars.charAt(point + 1);
                 if (isSpecial(second)) {
-                    sb.append(replaceSpecial(second));
+                    string.append(replaceSpecial(second));
                     point += 2;
                 } else {
-                    sb.append(first);
+                    string.append(first);
                     point += 1;
                 }
             }
         }
-        return sb;
+        return string;
     }
 
     /**
-     * Return special character instead of a letter.
-     * @param symbol the symbol
-     * @return The special character version.
+     * Replace special char.
+     * @param symbol The symbol.
+     * @return The char.
+     * @checkstyle ReturnCountCheck (100 lines)
      */
+    @SuppressWarnings("PMD.OnlyOneReturn")
     private static char replaceSpecial(final char symbol) {
         if (symbol == 'b') {
             return '\b';
@@ -77,23 +78,23 @@ public class UnescapeYamlChars implements Function<CharSequence, CharSequence> {
     }
 
     /**
-     * Check character is part of special one
-     * @param symbol the symbol
+     * Check character is part of special one.
+     * @param symbol The symbol.
      * @return Is one of or not.
      */
     private static boolean isSpecial(final char symbol) {
         return symbol == '\\'
-           || symbol == 'b'
-           || symbol == 'f'
-           || symbol == 'n'
-           || symbol == 'r'
-           || symbol == 't'
-           || symbol == '\"';
+            || symbol == 'b'
+            || symbol == 'f'
+            || symbol == 'n'
+            || symbol == 'r'
+            || symbol == 't'
+            || symbol == '\"';
     }
 
     /**
      * Check character is part of escape one.
-     * @param symbol the symbol.
+     * @param symbol The symbol.
      * @return Is one of or not.
      */
     private static boolean isEscape(final char symbol) {
@@ -102,7 +103,8 @@ public class UnescapeYamlChars implements Function<CharSequence, CharSequence> {
 
     /**
      * Check index is bigger that text's length.
-     * @param point the index.
+     * @param point The index.
+     * @param text The text.
      * @return Boolean.
      */
     private static boolean isOverflow(final int point, final CharSequence text) {
