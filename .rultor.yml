@@ -12,7 +12,7 @@ merge:
     mvn clean install -Pqulice -ntp --batch-mode
 release:
   script: |
-    gpg --allow-secret-key-import --no-tty --batch --import ../pubring.kbx
+    gpg2 --allow-secret-key-import --no-tty --batch --import ../pubring.kbx
     mvn versions:set "-DnewVersion=${tag}" -ntp
     git commit -am "${tag}"
     mvn clean deploy -Psonatype -ntp --settings ../settings.xml --batch-mode
