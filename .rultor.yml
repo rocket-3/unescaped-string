@@ -3,7 +3,7 @@ architect:
   - rocket-3
 assets:
   settings.xml: "rocket-3/dbgit-test#settings.xml"
-  pubring.gpg: "rocket-3/dbgit-test#pubring.kbx"
+  pubring.kbx: "rocket-3/dbgit-test#pubring.kbx"
 merge:
   script: |-
     pdd -f /dev/stdout
