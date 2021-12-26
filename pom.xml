@@ -132,9 +132,6 @@
             </build>
         </profile>
         <profile>
-            <!--
-            @todo #2:30min Enable deployment
-            -->
             <id>sonatype</id>
             <build>
                 <pluginManagement>
@@ -142,7 +139,7 @@
                         <plugin>
                             <artifactId>maven-deploy-plugin</artifactId>
                             <configuration>
-                                <skip>true</skip>
+                                <skip>false</skip>
                             </configuration>
                         </plugin>
                         <plugin>
