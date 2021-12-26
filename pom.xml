@@ -132,6 +132,9 @@
             </build>
         </profile>
         <profile>
+            <!--
+            @todo #2:30min Enable deployment
+            -->
             <id>sonatype</id>
             <build>
                 <pluginManagement>

@@ -1,0 +1,7 @@
+errors:
+  - gamingdas@gmail.com
+alerts:
+  github:
+    - rocket-3
+format:
+  - title-length=120
