@@ -182,7 +182,7 @@
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>oss.sonatype.org</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <nexusUrl>https://s01.oss.sonatype.org</nexusUrl>
                             <stagingProgressTimeoutMinutes>10</stagingProgressTimeoutMinutes>
                         </configuration>
                         <executions>
@@ -289,11 +289,6 @@
                 <artifactId>nexus-staging-maven-plugin</artifactId>
                 <version>1.6.7</version>
                 <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                    <stagingProgressTimeoutMinutes>10</stagingProgressTimeoutMinutes>
-                </configuration>
             </plugin>
         </plugins>
     </build>
