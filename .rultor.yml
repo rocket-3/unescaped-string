@@ -15,4 +15,4 @@ release:
     mvn versions:set "-DnewVersion=${tag}" -ntp -Dstyle.color=never
     git commit -am "${tag}"
     mvn clean install -Pqulice -ntp --batch-mode -Dstyle.color=never
-    mvn clean deploy -Psonatype -ntp --settings ../settings.xml --batch-mode -Dstyle.color=never
+    mvn clean deploy -Psonatype -ntp --settings ../settings.xml -Pkeys --batch-mode -Dstyle.color=never
