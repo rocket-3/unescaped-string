@@ -15,9 +15,6 @@ release:
   script: |
     mvn versions:set "-DnewVersion=${tag}" -ntp -Dstyle.color=never
     export GNUPGHOME="/home/r"
-    gpg2 --list-keys
-    gpg2 --import-options import-local-sigs --import secring.gpg
-    gpg2 --import-ownertrust otrust.lst
     git commit -am "${tag}"
     mvn clean install -Pqulice -ntp --batch-mode -Dstyle.color=never
     mvn clean deploy -Psonatype -ntp --settings ../settings.xml -Pkeys --batch-mode -Dstyle.color=never
