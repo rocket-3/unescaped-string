@@ -186,10 +186,6 @@
                                     <goal>sign</goal>
                                 </goals>
                                 <configuration>
-                                    <keyname>0x6AD8496A</keyname>
-                                    <homedir>/home/r</homedir>
-                                    <defaultKeyring>true</defaultKeyring>
-                                    <passphraseServerId>0x6AD8496A</passphraseServerId>
                                     <gpgArguments>
                                         <arg>--pinentry-mode</arg>
                                         <arg>loopback</arg>
