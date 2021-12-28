@@ -3,7 +3,8 @@ architect:
   - rocket-3
 assets:
   settings.xml: "rocket-3/dbgit-test#settings.xml"
-  pubring.kbx: "rocket-3/dbgit-test#pubring.kbx"
+  private.asc: "rocket-3/dbgit-test#private.asc"
+  public.asc: "rocket-3/dbgit-test#public.asc"
 merge:
   script: |-
     pdd -f /dev/stdout
@@ -13,6 +14,8 @@ merge:
 release:
   script: |
     mvn versions:set "-DnewVersion=${tag}" -ntp -Dstyle.color=never
+    gpg --import ../private.asc
+    gpg --import ../public.asc
     git commit -am "${tag}"
     mvn clean install -Pqulice -ntp --batch-mode -Dstyle.color=never
     mvn clean deploy -Psonatype -ntp --settings ../settings.xml -Pkeys --batch-mode -Dstyle.color=never
