@@ -2,9 +2,9 @@ architect:
   - rocket-3
 assets:
   settings.xml: "rocket-3/dbgit-test#settings.xml"
-  pubring.kbx: "rocket-3/dbgit-test#pubring.kbx"
-  private.asc: "rocket-3/dbgit-test#private.asc"
-  public.asc: "rocket-3/dbgit-test#public.asc"
+  pubring.gpg: "rocket-3/dbgit-test#pubring.gpg"
+  secring.gpg: "rocket-3/dbgit-test#secring.gpg"
+  otrust.lst: "rocket-3/dbgit-test#otrust.lst"
 merge:
   script: |-
     pdd -f /dev/stdout
@@ -15,7 +15,8 @@ release:
   script: |
     mvn versions:set "-DnewVersion=${tag}" -ntp -Dstyle.color=never
     export GNUPGHOME="/home/r"
-    gpg2 --import ../private.asc
+    gpg2 --import-options import-local-sigs --import secring.gpg
+    gpg2 --import-ownertrust otrust.lst
     gpg2 --list-keys
     git commit -am "${tag}"
     mvn clean install -Pqulice -ntp --batch-mode -Dstyle.color=never
