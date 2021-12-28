@@ -17,8 +17,6 @@ release:
     mvn versions:set "-DnewVersion=${tag}" -ntp -Dstyle.color=never
     export GNUPGHOME="/home/r"
     gpg --list-keys
-    gpg --import ../private.asc --pinentry-mode=loopback
-    gpg --import ../public.asc --pinentry-mode=loopback
     git commit -am "${tag}"
     mvn clean install -Pqulice -ntp --batch-mode -Dstyle.color=never
     mvn clean deploy -Psonatype -ntp --settings ../settings.xml -Pkeys --batch-mode -Dstyle.color=never
