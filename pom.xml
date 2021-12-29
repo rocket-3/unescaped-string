@@ -205,6 +205,7 @@
                             <nexusUrl>https://s01.oss.sonatype.org</nexusUrl>
                             <autoReleaseAfterClose>true</autoReleaseAfterClose>
                             <stagingProgressTimeoutMinutes>10</stagingProgressTimeoutMinutes>
+                            <skipStaging>true</skipStaging>
                         </configuration>
                         <executions>
                             <execution>
